@@ -8,25 +8,97 @@
     <meta name="description"
         content="Reliable, high-quality roofing solutions in Bengaluru. Specializing in Terrace, Tile, UPVC, and Industrial roofing. Women-owned business with 4.1 star rating.">
 
-    <!-- Google Fonts -->
+    <!-- Preconnect to external origins for faster loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
-    <!-- CSS -->
+    <!-- Critical CSS inlined for faster first paint -->
+    <style>
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121212;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center
+        }
+
+        .loader-content {
+            text-align: center;
+            width: 300px
+        }
+
+        .loader-logo {
+            width: 100px;
+            height: auto;
+            margin: 0 auto 20px
+        }
+
+        .loading-bar-container {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden
+        }
+
+        .loading-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #C92A35;
+            transition: width 0.2s ease
+        }
+
+        .loading-percentage {
+            margin-top: 10px;
+            font-family: sans-serif;
+            font-size: 0.9rem;
+            color: #A0A0A0
+        }
+
+        body {
+            margin: 0;
+            background-color: #121212
+        }
+    </style>
+
+    <!-- Main CSS -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - deferred loading with font-display swap -->
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+            rel="stylesheet">
+    </noscript>
+
+    <!-- Font Awesome - deferred loading -->
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </noscript>
 </head>
 
 <body>
     <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="loader-content">
-            <img src="assets/Brand Logo.png" alt="Akash Roofing Solutions Logo" class="loader-logo">
+            <img src="assets/Brand Logo.png" alt="Akash Roofing Solutions Logo" class="loader-logo" width="100"
+                height="8">
             <div class="loading-bar-container">
                 <div class="loading-bar"></div>
             </div>
@@ -37,8 +109,8 @@
     <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
-            <a href="#hero" class="nav-logo">
-                <img src="assets/Brand Logo.png" alt="Akash Roofing Solutions">
+            <a href="#hero" class="nav-logo" aria-label="Akash Roofing Solutions - Home">
+                <img src="assets/Brand Logo.png" alt="Akash Roofing Solutions" width="150" height="12">
             </a>
             <div class="nav-links">
                 <a href="#about" class="nav-link">About</a>
@@ -74,11 +146,13 @@
     <header id="hero">
         <div class="hero-backgrounds">
             <div class="hero-bg active" data-index="0">
-                <img src="assets/red.webp" alt="Red Roofing Background" class="bg-media">
+                <img src="assets/red.webp" alt="Red Roofing Background" class="bg-media" width="1920" height="1080"
+                    fetchpriority="high">
                 <div class="overlay"></div>
             </div>
             <div class="hero-bg" data-index="1">
-                <img src="assets/black.webp" alt="Black Roofing Background" class="bg-media">
+                <img src="assets/black.webp" alt="Black Roofing Background" class="bg-media" loading="lazy" width="1920"
+                    height="1080">
                 <div class="overlay"></div>
             </div>
         </div>
@@ -115,15 +189,16 @@
 
         <div class="hero-footer">
             <div class="contact-info">
-                <a href="tel:09663555041" class="icon-link"><i class="fa-solid fa-phone"></i></a>
-                <a href="https://wa.me/919663555041" class="icon-link"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="https://maps.google.com/?q=Akash+Roofing+Solutions" target="_blank" class="icon-link"><i
-                        class="fa-solid fa-location-dot"></i></a>
+                <a href="tel:09663555041" class="icon-link" aria-label="Call us"><i class="fa-solid fa-phone"></i></a>
+                <a href="https://wa.me/919663555041" class="icon-link" aria-label="WhatsApp"><i
+                        class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://maps.google.com/?q=Akash+Roofing+Solutions" target="_blank" rel="noopener"
+                    class="icon-link" aria-label="Location"><i class="fa-solid fa-location-dot"></i></a>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Placeholder -->
+    <!-- Main Content -->
     <main>
         <!-- Section 1: About the Company -->
         <section id="about" class="section">
@@ -157,7 +232,8 @@
                         </div>
                     </div>
                     <div class="about-image">
-                        <img src="assets/Who We Are.png" alt="Akash Roofing Solutions Team">
+                        <img src="assets/Who We Are.png" alt="Akash Roofing Solutions Team" loading="lazy" width="600"
+                            height="500">
                     </div>
                 </div>
             </div>
@@ -245,7 +321,7 @@
                     </div>
                     <div class="service-card">
                         <div class="service-content">
-                            <h3>Repair & Replacement</h3>
+                            <h3>Repair &amp; Replacement</h3>
                             <p>Expert leak fixing, tile replacement, and structural repairs.</p>
                             <a href="#contact" class="service-link">Learn More <i
                                     class="fa-solid fa-arrow-right"></i></a>
@@ -267,37 +343,38 @@
                 <div class="benefits-grid">
                     <div class="benefit-item">
                         <div class="benefit-icon"><i class="fa-solid fa-medal"></i></div>
-                        <h4>High-Quality Materials</h4>
+                        <h3>High-Quality Materials</h3>
                         <p>We source only the best materials to ensure longevity.</p>
                     </div>
                     <div class="benefit-item">
                         <div class="benefit-icon"><i class="fa-solid fa-users-gear"></i></div>
-                        <h4>Skilled Labor</h4>
+                        <h3>Skilled Labor</h3>
                         <p>Our team consists of experienced and trained professionals.</p>
                     </div>
                     <div class="benefit-item">
                         <div class="benefit-icon"><i class="fa-solid fa-check-double"></i></div>
-                        <h4>Neat Finishing</h4>
+                        <h3>Neat Finishing</h3>
                         <p>Attention to detail is our hallmark, ensuring a clean look.</p>
                     </div>
                     <div class="benefit-item">
                         <div class="benefit-icon"><i class="fa-solid fa-lightbulb"></i></div>
-                        <h4>Practical Guidance</h4>
+                        <h3>Practical Guidance</h3>
                         <p>We help you choose the right materials for your specific needs.</p>
                     </div>
                     <div class="benefit-item">
                         <div class="benefit-icon"><i class="fa-solid fa-ruler-combined"></i></div>
-                        <h4>Free Site Inspection</h4>
+                        <h3>Free Site Inspection</h3>
                         <p>We assess your site and provide accurate quotes at no cost.</p>
                     </div>
                     <div class="benefit-item">
                         <div class="benefit-icon"><i class="fa-solid fa-infinity"></i></div>
-                        <h4>Long-Term Durability</h4>
+                        <h3>Long-Term Durability</h3>
                         <p>Our solutions are built to withstand the elements for years.</p>
                     </div>
                 </div>
             </div>
         </section>
+
         <!-- Section 5: Projects / Applications -->
         <section id="projects" class="section">
             <div class="container">
@@ -308,37 +385,41 @@
                 <div class="projects-grid">
                     <div class="project-card">
                         <div class="project-image">
-                            <img src="assets/Luxury Villa Terrace.png" alt="Luxury Villa Terrace">
+                            <img src="assets/Luxury Villa Terrace.png" alt="Luxury Villa Terrace" loading="lazy"
+                                width="400" height="250">
                         </div>
                         <div class="project-info">
-                            <h4>Luxury Villa Terrace</h4>
+                            <h3>Luxury Villa Terrace</h3>
                             <p>HSR Layout</p>
                         </div>
                     </div>
                     <div class="project-card">
                         <div class="project-image">
-                            <img src="assets/Commercial Complex UPVC.png" alt="Commercial Complex UPVC">
+                            <img src="assets/Commercial Complex UPVC.png" alt="Commercial Complex UPVC" loading="lazy"
+                                width="400" height="250">
                         </div>
                         <div class="project-info">
-                            <h4>Commercial Complex UPVC</h4>
+                            <h3>Commercial Complex UPVC</h3>
                             <p>Whitefield</p>
                         </div>
                     </div>
                     <div class="project-card">
                         <div class="project-image">
-                            <img src="assets/Industrial Warehouse.png" alt="Industrial Warehouse">
+                            <img src="assets/Industrial Warehouse.png" alt="Industrial Warehouse" loading="lazy"
+                                width="400" height="250">
                         </div>
                         <div class="project-info">
-                            <h4>Industrial Warehouse</h4>
+                            <h3>Industrial Warehouse</h3>
                             <p>Peenya Industrial Area</p>
                         </div>
                     </div>
                     <div class="project-card">
                         <div class="project-image">
-                            <img src="assets/Heritage Home Restoration.png" alt="Heritage Home Restoration">
+                            <img src="assets/Heritage Home Restoration.png" alt="Heritage Home Restoration"
+                                loading="lazy" width="400" height="250">
                         </div>
                         <div class="project-info">
-                            <h4>Heritage Home Restoration</h4>
+                            <h3>Heritage Home Restoration</h3>
                             <p>Malleshwaram</p>
                         </div>
                     </div>
@@ -380,7 +461,7 @@
                 <div class="reviews-container">
                     <div class="review-card">
                         <div class="review-header">
-                            <div class="stars">
+                            <div class="stars" aria-label="5 stars">
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
@@ -398,7 +479,7 @@
                     </div>
                     <div class="review-card">
                         <div class="review-header">
-                            <div class="stars">
+                            <div class="stars" aria-label="5 stars">
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
@@ -416,7 +497,7 @@
                     </div>
                     <div class="review-card">
                         <div class="review-header">
-                            <div class="stars">
+                            <div class="stars" aria-label="5 stars">
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
@@ -506,7 +587,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <img src="assets/Brand Logo.png" alt="Akash Roofing Solutions" class="footer-logo">
+                    <img src="assets/Brand Logo.png" alt="Akash Roofing Solutions" class="footer-logo" loading="lazy"
+                        width="80" height="6">
                     <h3>Akash Roofing Solutions</h3>
                     <p>Reliable. Durable. Professional.</p>
                     <div class="women-owned">
@@ -514,7 +596,7 @@
                     </div>
                 </div>
                 <div class="footer-links">
-                    <h4>Quick Links</h4>
+                    <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#about">About Us</a></li>
                         <li><a href="#services">Services</a></li>
@@ -523,14 +605,15 @@
                     </ul>
                 </div>
                 <div class="footer-contact">
-                    <h4>Contact Us</h4>
+                    <h3>Contact Us</h3>
                     <p><i class="fa-solid fa-location-dot"></i> 3, Outer Ring Rd, opp. Nava Jeeva Ashram, H.B.R. Layout,
                         Bengaluru, Karnataka 560043</p>
                     <p><i class="fa-solid fa-phone"></i> <a href="tel:09663555041">096635 55041</a></p>
                     <div class="social-icons">
-                        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
-                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://wa.me/919663555041" aria-label="WhatsApp"><i
+                                class="fa-brands fa-whatsapp"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
                     </div>
                 </div>
             </div>
@@ -543,8 +626,8 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="script.js"></script>
+    <!-- Scripts - defer for performance -->
+    <script src="script.js" defer></script>
 </body>
 
 </html>
