@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Hero Background Slider
+    // Hero Background Slider - Manual control only (no auto-slide)
     const heroBgs = document.querySelectorAll('.hero-bg');
     const prevBtn = document.getElementById('prev-hero');
     const nextBtn = document.getElementById('next-hero');
@@ -82,11 +82,44 @@ document.addEventListener('DOMContentLoaded', () => {
         updateHero(currentHeroIndex);
     });
 
-    // Auto slide every 5 seconds
-    setInterval(() => {
-        currentHeroIndex = (currentHeroIndex + 1) % heroBgs.length;
-        updateHero(currentHeroIndex);
-    }, 5000);
+    // Ping-Pong Video Loop (play forward, then reverse, repeat)
+    const heroVideos = document.querySelectorAll('.hero-bg video');
+
+    heroVideos.forEach(video => {
+        let isReversing = false;
+        const playbackSpeed = 1; // Normal speed
+        const reverseSpeed = 30; // How often to step back (ms) - lower = faster reverse
+        let reverseInterval = null;
+
+        // Remove default loop attribute - we'll handle looping manually
+        video.removeAttribute('loop');
+
+        video.addEventListener('ended', () => {
+            // Video finished playing forward, start reversing
+            isReversing = true;
+            startReverse(video);
+        });
+
+        function startReverse(vid) {
+            reverseInterval = setInterval(() => {
+                if (vid.currentTime <= 0) {
+                    // Reached the beginning, stop reversing and play forward
+                    clearInterval(reverseInterval);
+                    isReversing = false;
+                    vid.play();
+                } else {
+                    // Step back in time
+                    vid.currentTime -= 0.05;
+                }
+            }, reverseSpeed);
+        }
+
+        // Make sure video plays when it becomes visible
+        video.play().catch(() => {
+            // Autoplay might be blocked, user interaction needed
+            console.log('Autoplay blocked, waiting for user interaction');
+        });
+    });
 
     // FAQ Accordion
     const faqItems = document.querySelectorAll('.faq-item');
