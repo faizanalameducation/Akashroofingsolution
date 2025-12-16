@@ -83,13 +83,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Ping-Pong Video Loop (play forward, then reverse, repeat)
+    // Ping-Pong Video Loop (play forward, then reverse, repeat)
     const heroVideos = document.querySelectorAll('.hero-bg video');
 
     heroVideos.forEach(video => {
         let isReversing = false;
-        const playbackSpeed = 1; // Normal speed
-        const reverseSpeed = 30; // How often to step back (ms) - lower = faster reverse
-        let reverseInterval = null;
+        let animationFrameId = null;
+        let lastTime = 0;
+        const reverseSpeed = 1.0; // 1.0 = normal speed
 
         // Remove default loop attribute - we'll handle looping manually
         video.removeAttribute('loop');
@@ -97,22 +98,43 @@ document.addEventListener('DOMContentLoaded', () => {
         video.addEventListener('ended', () => {
             // Video finished playing forward, start reversing
             isReversing = true;
-            startReverse(video);
+            lastTime = performance.now();
+            animationFrameId = requestAnimationFrame(reverseVideo);
         });
 
-        function startReverse(vid) {
-            reverseInterval = setInterval(() => {
-                if (vid.currentTime <= 0) {
-                    // Reached the beginning, stop reversing and play forward
-                    clearInterval(reverseInterval);
-                    isReversing = false;
-                    vid.play();
-                } else {
-                    // Step back in time
-                    vid.currentTime -= 0.05;
-                }
-            }, reverseSpeed);
+        function reverseVideo(timestamp) {
+            if (!isReversing) return;
+
+            // Calculate time delta for smooth playback regardless of frame rate
+            const deltaTime = (timestamp - lastTime) / 1000; // in seconds
+            lastTime = timestamp;
+
+            // Prevent huge jumps if tab was inactive
+            if (deltaTime > 0.1) {
+                animationFrameId = requestAnimationFrame(reverseVideo);
+                return;
+            }
+
+            if (video.currentTime <= 0) {
+                // Reached the beginning, stop reversing and play forward
+                isReversing = false;
+                cancelAnimationFrame(animationFrameId);
+                video.currentTime = 0;
+                video.play();
+            } else {
+                // Step back in time based on delta and speed
+                video.currentTime = Math.max(0, video.currentTime - (deltaTime * reverseSpeed));
+                animationFrameId = requestAnimationFrame(reverseVideo);
+            }
         }
+
+        // Handle manual pause/play to stop reversal if needed
+        video.addEventListener('play', () => {
+            if (isReversing) {
+                isReversing = false;
+                cancelAnimationFrame(animationFrameId);
+            }
+        });
 
         // Make sure video plays when it becomes visible
         video.play().catch(() => {
